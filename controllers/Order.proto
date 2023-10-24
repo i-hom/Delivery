@@ -1,0 +1,48 @@
+syntax = "proto3";
+package controllers;
+
+option go_package = "./controllers";
+
+message ID{
+  string ID = 1;
+}
+
+message Order{
+  string ID = 1;
+  string Item = 2;
+  string UserName = 3;
+  string UserPhone = 4;
+  string Address = 5;
+  float UserLocationX = 6;
+  float UserLocationY = 7;
+  float PickUpPointX = 8;
+  float PickUpPointY = 9;
+  string MetaInfo = 10;
+  string Status = 11;
+}
+
+message CourierCoordinates {
+  float X = 1;
+  float Y = 2;
+}
+
+message Response {
+  uint32 Code = 1;
+  string Message = 2;
+}
+
+message OrderForDelivery{
+  string OrderID = 1;
+  float Distance = 2;
+}
+
+message OrdersForDelivery{
+  repeated OrderForDelivery Orders = 1;
+}
+
+service OrderService {
+  rpc AddOrderToDelivery(Order) returns (Response);
+  rpc GetOrdersForDelivery(CourierCoordinates) returns (OrdersForDelivery);
+  rpc GiveOrderForDelivery(ID) returns (Order);
+  rpc CloseOrder(ID) returns (Response);
+}
